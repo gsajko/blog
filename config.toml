@@ -7,7 +7,11 @@ languageCode = "en-us"
 baseURL = "https://gsajko.github.io/"
 copyright = "© {year}"
 
-contentDir   = "content"
+# Add your Disqus shortname here.
+# disqusShortname = ""
+
+# Add your Google Analytics identifier: UA-XXXXXXXX-X
+# googleAnalytics = "" 
 
 # Optional params
 [params]

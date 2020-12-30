@@ -24,9 +24,9 @@ For this post I'll be loosely using framework proposed [here](https://madewithml
 [
 I like how Herbert A. Simon in Designing organizations for an information-rich world](https://digitalcollections.library.cmu.edu/awweb/awarchive?type=file&item=33748) reverses this:
 
-We're not consuming information, information is consuming our attention.
+We're not consuming information, **information is consuming our attention**.
 
->*Hence a wealth of information creates a poverty of attention and a need to allocate that attention efficiently among the overabundance of information sources that might consume it.*
+>Hence a wealth of information creates a poverty of attention and a need to allocate that attention efficiently among the overabundance of information sources that might consume it.
 
 That means, that **attention is scarce**.
 

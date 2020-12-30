@@ -80,9 +80,9 @@ copyright = "© {year}"
   title = "Projects journals"
   url = "/projects"
 
-[[menu.main]]
-  identifier = "notes"
-  name = "notes"
-  title = "notes"
-  url = "/notes"
+# [[menu.main]]
+#   identifier = "notes"
+#   name = "notes"
+#   title = "notes"
+#   url = "/notes"
 

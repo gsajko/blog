@@ -86,3 +86,7 @@ copyright = "© {year}"
 #   title = "notes"
 #   url = "/notes"
 
+# services shortcodes
+# [services]
+#   [services.twitter]
+#     disableInlineCSS = true

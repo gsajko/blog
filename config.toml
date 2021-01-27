@@ -74,11 +74,11 @@ copyright = "© {year}"
   url = "/posts"
 
 
-[[menu.main]]
-  identifier = "projects journals"
-  name = "projects"
-  title = "Projects journals"
-  url = "/projects"
+# [[menu.main]]
+#   identifier = "projects journals"
+#   name = "projects"
+#   title = "Projects journals"
+#   url = "/projects"
 
 # [[menu.main]]
 #   identifier = "notes"

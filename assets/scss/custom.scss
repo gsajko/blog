@@ -9,3 +9,12 @@ blockquote {
 blockquote p {
   display: inline;
 }
+
+li {
+  list-style-type: disc;
+}
+
+li li {
+  margin-left:25px;
+}
+

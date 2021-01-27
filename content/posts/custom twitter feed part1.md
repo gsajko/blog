@@ -2,6 +2,8 @@
 title: "Custom twitter feed project - Part 1"
 date: 2021-01-26T10:15:57+01:00
 draft: False
+_build:
+    list: true
 tags: ["twitter", "custom_feed", "projects"]
 description: "Project journal about making custom twitter feed using Machine Learning"
 toc: true
@@ -130,12 +132,15 @@ I want to get rid of all information represented by "blue" curves, and most repr
 
 - getting data: using cron jobs, grab tweets from a `home` endpoint to SQL, using [twitter-to-sqlite](https://github.com/dogsheep/twitter-to-sqlite)
 - using the rule-based approach to **filter out** tweets
-- **classify** remaining tweets based on engagement - (`tweet is engaging`, `tweet is not engaging` )
-	- ❗️ this requires me to be more conscious and mindful about which tweets I interact with ❗️ 
-		- I need to show to "algorithm", that I prefer a particular type of tweet.
+- re-using this data, to **classify** other tweets, that didn't get filter out (`is tweet not-relevant`)
 - send them to a collection inside of [Tweetdeck](https://tweetdeck.twitter.com/).
 	- I have thought about different approaches how to serve those tweets.
 		- serving web app with Flask and tweets embedded.
 		- serving using streamlit.
     - Using Tweetdeck is the best, because it allows me to interact with tweets with ease - I can _like_ and _retweet_ from there. 
     - Additionally, I can create more than one collection - I can easily drag/copy tweets from one collection to another - this enables me for easy labeling of tweets - just drag tweet to `not_relevant` collection.
+
+#### next:
+- **classify** remaining tweets based on engagement - (`tweet is engaging`, `tweet is not engaging` )
+	- ❗️ this requires me to be more conscious and mindful about which tweets I interact with ❗️ 
+		- I need to show to "algorithm", that I prefer a particular type of tweet.

@@ -1,6 +1,6 @@
 ---
 heading: "Hi, I'm Grzegorz Sajko"
 subheading: "this is a collection of my writings, projects, notes"
-handle: "gsajko"
+handle: "saiko_grzegorz"
 ---
 

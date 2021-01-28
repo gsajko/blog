@@ -20,7 +20,7 @@ copyright = "© {year}"
   dateFormat = "Jan 2 2006"
 
   # Links to your social accounts, comment/uncomment as needed. Icons will be displayed for those specified.
-  twitter = "https://twitter.com/gsajko"
+  twitter = "https://twitter.com/saiko_grzegorz"
   github = "https://github.com/gsajko"
   # email = "mailto:<your email>"
   # facebook = "https://facebook.com/<your handle>"
@@ -67,18 +67,18 @@ copyright = "© {year}"
   title = "Home"
   url = "/"
 
-[[menu.main]]
-  identifier = "blog"
-  name = "blog"
-  title = "Blog"
-  url = "/posts"
-
-
 # [[menu.main]]
-#   identifier = "projects journals"
-#   name = "projects"
-#   title = "Projects journals"
-#   url = "/projects"
+#   identifier = "blog"
+#   name = "blog"
+#   title = "Blog"
+#   url = "/posts"
+
+
+[[menu.main]]
+  identifier = "projects journals"
+  name = "projects"
+  title = "Projects journals"
+  url = "/projects"
 
 # [[menu.main]]
 #   identifier = "notes"

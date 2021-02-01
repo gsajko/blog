@@ -45,10 +45,14 @@ There was also a response by this guy:
 
 {{< tweet 1153488195432132614 >}}
 
-Remember "BERT embeddings/Universal Sentence Encoder → UMAP → HDBSCAN" from the previous tweet?
-Leland happens to be the researcher behind UMAP and HDBSCAN. Instant "follow" for me.
+Remember "*BERT embeddings/Universal Sentence Encoder → UMAP → HDBSCAN*" from the previous tweet?
 
 ![Leland](/img/20210201184524.png)
+
+Leland happens to be the researcher behind UMAP and HDBSCAN. 
+
+Instant "follow" for me.
+
 
 Ok, so what about LDA? What do other people think about it?
 I repeated the search, remembering to check "People you follow".
@@ -57,7 +61,7 @@ This time I needed to dig a little deeper, focused on this tweet:
 
 {{< tweet 1133806246182604800 >}}
 
-The tree got way bigger (Rachael has 22k followers)
+The **tree** got way bigger (Rachael has 22k followers)
 
 ![](/img/20210201185406.png)
 

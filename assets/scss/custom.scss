@@ -1,3 +1,15 @@
+.post {
+  max-width: 44em;
+}
+
+.post img {
+  width:auto;
+  max-width:95%;
+  margin:0 auto;
+  display:block;
+  padding-top: 3%;
+ }
+
 blockquote {
   background: #eeeaea;
   border-left: 10px solid #ccc;

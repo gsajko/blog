@@ -25,7 +25,7 @@ I just use search, remembering to check "**People you follow**"
 I especially liked this tweet:
 {{< tweet 1153485963794046981 >}}
 
-Without any prior knowledge from that one tweet by [@pmbaumgartner](https://twitter.com/pmbaumgartner/), you can learn that there is a traditional topic modeling method called "LDA", and it doesn't provide good results. "BERT embeddings/Universal Sentence Encoder → UMAP → HDBSCAN" seem to work better.
+Without any prior knowledge, just from that one tweet by [@pmbaumgartner](https://twitter.com/pmbaumgartner/), you can learn that there is a traditional topic modeling method called "LDA", and it doesn't provide good results for tweets. "BERT embeddings/Universal Sentence Encoder → UMAP → HDBSCAN" seem to work better.
 
 But let's look at the whole discussion.
 

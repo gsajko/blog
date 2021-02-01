@@ -1,1 +1,1 @@
-blockquote{background:#eeeaea;border-left:10px solid #ccc;margin:2em 10px;padding:1em 10px;font-style:italic}blockquote p{display:inline}li{list-style-type:disc}li li{margin-left:25px}
+.post{max-width:44em}.post img{width:auto;max-width:95%;margin:0 auto;display:block;padding-top:3%}blockquote{background:#eeeaea;border-left:10px solid #ccc;margin:2em 10px;padding:1em 10px;font-style:italic}blockquote p{display:inline}li{list-style-type:disc}li li{margin-left:25px}

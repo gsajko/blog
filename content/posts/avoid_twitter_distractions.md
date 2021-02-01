@@ -1,5 +1,5 @@
 ---
-title: "How to get avoid distractions while using Twitter"
+title: "How to avoid distractions while using Twitter"
 date: 2020-02-01 18:24:01+02:00
 draft: False
 _build:

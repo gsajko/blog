@@ -33,8 +33,11 @@ But let's look at the whole discussion.
 I go to the "main" tweet and use a browser plugin called [Treeverse](https://treeverse.app/)
 
 This is the tweet that started the whole discussion.
+
 {{< tweet 1153456432122978304 >}}
-It gives me a good overview - Twitter sometimes hides some tweets, so I prefer to use Treeverse.
+
+Treeverse gives me a good overview - Twitter sometimes hides some tweets, so I prefer to use Treeverse.
+
 ![Treeverse](/img/20210201184238.png)
 
 One other tweet contained tricks on how to improve the performance of modeling:
@@ -81,4 +84,4 @@ Twitter is good for finding different approaches/methods, way better than any ot
 
 But the key is following correct people. 
 
-And **do bias to the side of more opinionated folks**.
+And **do bias to the side of following more opinionated folks**.

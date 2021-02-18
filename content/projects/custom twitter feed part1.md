@@ -1,5 +1,5 @@
 ---
-title: "Custom twitter feed project - Part 1"
+title: "Custom twitter feed project, Part 1: Introduction"
 date: 2021-01-26T10:15:57+01:00
 draft: False
 _build:

@@ -7,7 +7,7 @@ _build:
   render: true
   publishResources: true
 tags: ["twitter", "custom_feed", "projects"]
-description: "Project journal about making custom twitter feed using Machine Learning"
+description: "Project journal about making custom twitter feed"
 toc: true
 ---
 

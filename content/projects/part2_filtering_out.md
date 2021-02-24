@@ -13,12 +13,88 @@ toc: true
 ---
 ## Collecting training data
 ### collecting data
-I collect twitter data using library made by @simon twitter-to-sql
+I collect twitter data using library made by Simon Willison - [twitter-to-sql](https://github.com/dogsheep/twitter-to-sqlite).
+It's part of 
+My first approach was to do it by myself: twitter API is very clear, so it shouldn't be too hard to just grab tweets with API and dump them into SQL? Right?
+It wouldn't be a problem as a one-time-thing, as I usually had done in the past in jupyter notebooks. 
+But if this should be more robust - with proper testing etc it wouldn't be a "custom twitter feed" project but "twitter API to SQL" project.
 
-cron jobs
+So I decided to use Simon's library.
+It's awesome, I have it "git-cloned" in a folder, so from time to time I take a look at the code. 
+It's a part of bigger project by Simon called [dogsheep](https://dogsheep.github.io/). "Tools for personal analytics using SQLite and Datasette"
+<details><summary>CLICK for more Datasette and Dogsheep</summary>
+	<p>
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/l1EFThsAFgs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		<br>
+		 detailed notes by Simon: 
+		<a href = "https://simonwillison.net/2020/Nov/14/personal-data-warehouses/">LINK</a>
+	</p>
+	</details>
+
+### Setting up cron jobs
+This was new to me. 
+
+Here are some resource I found useful for setting up cron jobs on Ubuntu:
+https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-ubuntu-1804
+https://www.howtogeek.com/101288/how-to-schedule-tasks-on-linux-an-introduction-to-crontab-files/
+
+small things I learned:
+
+how to check if  cron is working?
+`ps -ef | grep crond`
+
+how to look at current crontab (without going into editor)?
+`crontab -l`
+
+```bash
+gsajko   16198 16000  0 10:56 pts/2    00:00:00 grep --color=auto crond
+```
+
+I tried this one, but without success.
+```bash
+*/1 * * * * cd /home/gsajko/work/custom_twitter_feed run-one twitter-to-sqlite home-timeline home.db --since -a auth/auth.json
+```
+I spent way to much time debugging this, looked at many `log/syslog` files.
+
+Until I cound [this gem](https://serverfault.com/questions/449651/why-is-my-crontab-not-working-and-how-can-i-troubleshoot-it):
+
+>**The vast majority of "my cron script doesn't work" problems are caused by this restrictive path.**
+>you can solve this in a couple of ways:
+>1. Provide the full path to your command.
+> `1 2 * * * /path/to/your/command`
+
+So I quickly remade it (removed `cd ` part, added full paths for twitter-to-sqlite, to `home.db`, and to `auth.json` file)
+
+```bash
+2,7,12,17,22,27,32,37,42,47,52,57 * * * * run-one /home/gsajko/miniconda3/bin/twitter-to-sqlite home-timeline /home/gsajko/work/custom_twitter_feed/home.db -a /home/gsajko/work/custom_twitter_feed/auth/auth.json --since
+```
+
+Simon also shared his crontab for his personal data werehouse here:
+https://gist.github.com/simonw/1299d61d17637d1145955ebc019ea3c4
+I shamelessly copied his "time" settings. 
+
+What is the `run-one`? It check is previous run was completed, before starting new one. Given possible timeouts on API side, it's great to have it in place.
+https://blog.dustinkirkland.com/2011/02/introducing-run-one-and-run-this-one.html
+
+### note about collecting data
+I'm using `home-timeline` option:
+
+[Get Tweet timelines](https://developer.twitter.com/en/docs/twitter-api/v1/tweets/timelines/api-reference/get-statuses-home_timeline)
+
+> Up to 800 Tweets are obtainable on the home timeline. It is more volatile for users that follow many users or follow users who Tweet frequently.
+
+If you have muted accounts, using this endpoint WON'T get their tweets. I some way, I'm giving some of the control to twitter when using this option.
+But I wanted to have wide range of tweets, and other option would be to download ALL tweets by ALL users I follow.
+
+This would baloon the database waay more then I would like too - this option would download 3200 tweets of each user. But it would download another 3200 with next use - until it would grab all possible tweets.
+
+I did this as a test for a list of 60 users, and `db` was about 200mb in size.
+Compared to `home-timeline` `db` grabing tweets from more than 600 users I follow - 160mb (about 2,5 months of cronjobs).
+
+I was fun looking at tweets posted in 2008, though. People were using twitter in tottaly different way then today - there were mostly micro-blogs.
 
 
-## Displaying 
+## Displaying and reviewing tweets.
 ### uploading data to collections
 two collections - `not_relevant`, and `custom_feed`.
 `custom_feed` is were tweets are heading. 
@@ -31,9 +107,9 @@ After inspection there were 2 reasons:
 - tweet is deleted.
 
 Almost 20% tweets were deleted! - I guess December 2020 was time, when people regretted posting things.
-It changed over time - right now it's about 10% deleted tweets. It seem high but I don't think it's surprising 
+It changed over time - right now it's less than 10% deleted tweets. It seem high but I don't think it's surprising 
 
-- I delete often, within 10 minutes of posting (noticed spelling error or something like that)
+- I delete often, within 10 minutes of posting (noticed spelling error or something like that; reweet something, then cancel reweet and do a quote tweet)
 - there are accounts, that have automatic purge script setup, and they delete tweets older than week / month.
 
 
@@ -93,37 +169,19 @@ On each of those columns (max links in tweet was 6!) I used simple `.isin`
 
 Then I summed it up in one column `contains_news` and made values `0` or `1`.
 
+Trough uploading batches of tweets to collection and reviewing them, I make some changes to that list: removed some domains (youtube.com, linkedin.com), noticed that some of domains weren't in the dataset (for example: techmeme.com, buzzfeednews.com), so I added them to the list.
 
-
-Trough uploading batches of tweets to collection and reviewing them, I make some changes to that list: removed some domains (youtube.com, linkedin.com), noticed that some of domains weren't in the dataset (for example: techmeme.com, buzzfeednews.com)
-
-After another iteration some news still were getting through, and not some small news site, but sites like cnn.com.
-
-I discovered that sometimes news were posted in short url format.
-
-#### dealing with short urls
-
-
-####
-
-
-
-
-
-https://github.com/gsajko/tweetfeed/blob/master/notebooks/create_news_domains_list.ipynb
-
-
-
-
-
-Oo
-### most important client - myself
-I'm doing this project 
-
-
-## NEXT: Labeling training data
-
+## NEXT:
+### Labeling training data
 
 ![[attn dataset 1]]
 ![[attn feed creation]]
 [[blog process]]
+
+### [[dealing with short urls]]
+
+https://github.com/gsajko/tweetfeed/blob/master/notebooks/create_news_domains_list.ipynb
+
+### most important client - myself
+I'm doing this project 
+

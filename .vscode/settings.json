@@ -1,0 +1,16 @@
+{
+    "grammarly.overrides": [
+        {
+            "files": [
+                "**/blog/content/projects/part2_filtering_out.md"
+            ],
+            "config": {
+                "audience": "knowledgeable",
+                "dialect": "american",
+                "domain": "general",
+                "emotions": [],
+                "goals": []
+            }
+        }
+    ]
+}

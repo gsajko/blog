@@ -11,6 +11,7 @@ tags: ["twitter", "custom_feed", "projects"]
 description: "Project journal about making custom twitter feed"
 toc: true
 ---
+
 ## Collecting training data
 ### Collecting data
 I collect Twitter data using a library made by Simon Willison - [twitter-to-sql](https://github.com/dogsheep/twitter-to-sqlite).
@@ -21,22 +22,23 @@ But if I would want to make something more robust - with proper testing etc it w
 
 So I decided to use Simon's library.
 It's awesome, I have it "git-cloned" in a folder, so from time to time I take a look at the code. 
-It's a part of a bigger project by Simon called [dogsheep](https://dogsheep.github.io/). "Tools for personal analytics using SQLite and Datasette"
+It's a part of a bigger project by Simon called [Dogsheep](https://dogsheep.github.io/). What is Dogsheep? From the website: "Tools for personal analytics using SQLite and Datasette".
+In short - Dogsheep is for getting your personal data, and Datasette is for displaying/analyzing.
 
 <br>
 <details><summary>CLICK for more Datasette and Dogsheep</summary>
-	<p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/l1EFThsAFgs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<br>
-		 detailed notes by Simon: 
-		<a href = "https://simonwillison.net/2020/Nov/14/personal-data-warehouses/">LINK</a>
-	</p>
-	</details>
+    <p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/l1EFThsAFgs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <br>
+         detailed notes by Simon: 
+        <a href = "https://simonwillison.net/2020/Nov/14/personal-data-warehouses/">LINK</a>
+    </p>
+    </details>
 
 ### Setting up cron jobs
 This was new to me. 
 So what are cron jobs? [Wikipedia](https://en.wikipedia.org/wiki/Cron): "is a time-based job scheduler". 
-It means, that you shedule when you want a script to run.
+It means, that you schedule when you want a script to run.
 For me, the script was `twitter-to-sqlite` command downloading my Twitter timeline, and `time` was "every 5 minutes".
 You put this information into a file called `crontab` and it executes tasks in the background.
 
@@ -103,8 +105,8 @@ This would balloon the database waaay more than I would like to - this option wo
 I did this as a test for a list of only 60 users, and `db` file was about 200mb in size.
 Compared to `home-timeline` `db` file from grabbing tweets from more than 600 users I follow - 160mb (about 2,5 months of cronjobs).
 
-As I mentioned earlier - script downloaded 3200 each time per user - going back in time to 2008 for some users.
-It was fun looking at tweets posted in 2008, though. People were using Twitter in a totally different way than today - there were mostly micro-bloging ("I ate lemon pie today", "watching the game" - that kind of stuff).
+As I mentioned earlier - the script downloaded 3200 each time per user - going back in time to 2008 for some users.
+It was fun looking at tweets posted in 2008, though. People were using Twitter in a totally different way than today - there were mostly micro-blogging ("I ate lemon pie today", "watching the game" - that kind of stuff).
 
 ## Filtering out
 
@@ -127,7 +129,7 @@ This got me over 9000 unique news domain names.
 #### Get the domain from the tweets
 so let's move back to tweets.
 
-In order to find news in tweet's urls I needed to clean them up.
+To find news in tweet's urls I needed to clean them up.
 - remove links to other tweets (they are urls - but not )
 - remove short links, like "bit.ly", "buff.ly". *(in hindsight - I'll leave them for extracting domains)*
 
@@ -171,10 +173,42 @@ Then I summed it up in one column `contains_news` and made values `0` or `1`.
 
 Through uploading batches of tweets to the collection and reviewing them, I make some changes to that list: 
 - removed some domains (youtube.com, linkedin.com), 
-- noticed that some of the domains weren't in the dataset (for example techmeme.com, buzzfeednews.com), so I added them to the list.
+- noticed that some of the domains weren't in the dataset (e. g. techmeme.com, buzzfeednews.com), so I added them to the list.
 
 On top of that - I saw that often quote tweets were containing news, or someone was replying to the news posted by another person.
-To deal with that, I decided to add  tweet + quoted_tweet + in_reply_to and use `find_news` function on that text.
+To deal with that, I decided to add tweet + quoted_tweet + in_reply_to and use `find_news` function on that text.
 
-### Muted words
-### Muted accounts
+### Muting stuff
+Another rule-based solution - just mute words and accounts. The Twitter solution doesn't work for me - it works ok with accounts, but somewhat muting words was unreliable in my experience.
+
+#### Muted words
+It's very simple:
+I have two simple lists, one is for case-sensitive words.
+Example looks like this:
+
+```py
+mute_list = ["breaking:", "🍿", "🚨", "san francisco"]
+mute_list_case_sensitive = ["GOP", "BREAKING", "MAGA"]
+```
+I just remove tweets with those strings in them.
+
+#### Muted accounts
+I created a special list on Twitter called `muted`. If I decide I don't want to see a particular person in my feed I add them to that list.
+I found also a blocklist - made of a New York Times journalist. I don't have anything against this particular magazine, but as I want to reduce the amount of news-related stories this was useful. 
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Twitter&#39;s API makes us ask for all these permissions. All the app does is block these accounts: <a href="https://t.co/TaVranhx9k">https://t.co/TaVranhx9k</a>. You can uninstall the app right after using it. The accounts will stay blocked.<br><br>See the right-hand side of the screenshot.</p>&mdash; Block the New York Times (@blocknyt) <a href="https://twitter.com/blocknyt/status/1358829123418791937?ref_src=twsrc%5Etfw">February 8, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+I didn't want to block them - so I downloaded that list, and using API added 900 accounts to the list `nytblock`.
+Be careful while doing that, Twitter doesn't like too much activity when it comes to lists, their requests limit is lower for that.
+From [docs](https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all):
+
+>Please note that there can be issues with lists that rapidly remove and add memberships. Take care when using these methods such that you are not too rapidly switching between removals and adds on the same list.
+
+I was hitting Rate Limit Error all the time. It took me some time to realize, it was due to my `while...` loop. 
+Also, be careful with using a loop and using functionality that e.g. involves tweets/likes - I deleted once my whole feed while playing with API.
+
+With two lists in place, I created a simple function that grabs users from the list, and I use this to filter out those users.
+I try where I can incorporate existing functionality in Twitter so that not everything is local on my PC.
+
+## Next
+Reviewing and labeling batches - displaying newsfeed.

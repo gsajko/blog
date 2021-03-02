@@ -13,6 +13,12 @@ copyright = "© {year}"
 # Add your Google Analytics identifier: UA-XXXXXXXX-X
 # googleAnalytics = "" 
 
+[frontmatter]
+date = ["date", "publishDate"]
+lastmod = [":fileModTime", "lastmod", "date", "publishDate"]
+publishDate = ["publishDate", "date"]
+expiryDate = ["expiryDate"]
+
 # Optional params
 [params]
   # Follow the Hugo date/time format reference here: 
@@ -90,3 +96,5 @@ copyright = "© {year}"
 # [services]
 #   [services.twitter]
 #     disableInlineCSS = true
+
+enableGitInfo = true

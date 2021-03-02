@@ -1,5 +1,5 @@
 ---
-title: "Part 2: Collecting and displaying data"
+title: "Part 2: Collecting and filtering data"
 date: 2021-02-18T16:43:08+01:00
 draft: false
 _build:

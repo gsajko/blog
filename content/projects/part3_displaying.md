@@ -25,7 +25,8 @@ But I had to look at other options in the meantime.
 Streamlit look like really great solution.
 I could grab bigger batch, let's say 1000 of tweets, put some filters on the left sidebar, and user could decide in "real-time" what content he is interested in (and in what his not).
 Or how many tweets to display:
-![[Pasted image 20210307145849.png]]
+
+![](/img/20210307145849.png)
 I builded a prototype early.
 
 ### Why not streamlit?
@@ -66,7 +67,8 @@ Changed code to suit me better:
 In Tweetdeck I have 2 most important collections:
 - `custom_feed` - where I upload tweets after filtering them
 - `not_relevant` - so I can quickly drag tweets from one column to other, to mark them as not relevant.
-![[Pasted image 20210307151005.png]]
+
+![](/img/20210307151005.png)
 
 ### uploading data to collections
 I was planning to use `tweepy` for uploading - but it doesn't have this functionality.
@@ -74,10 +76,19 @@ But twitter API is quite friendly for noobs, and there is no need for using a de
 
 
 
-
-
 ## Reviewing proccess
+Regardless of the methods of displaying tweets, I think it is crucial to have a way of looking at the results.
 
+It allowed me to think about new features, new ways of filtering out tweets, small fixes etc. in an iterative matter.
+
+The downside - this method relies on *eyeballing*. This could lead to silent errors. One of those examples I can think of is removing tweets that could be important for me, without me noticing. 
+
+But as my main goal is improving signal-noise ratio, I'm willing to "loss" those tweets, if this means that my feed would be low on noise.
+
+In [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) terms, I consider this a problem good for "recall" metric.
+
+Some of the cases:
+### Deleted tweets
 While writing a function that uploads tweets to a collection I noticed that sometimes upload fails.
 After inspection there were two reasons:
 - tweet is from a protected account
@@ -90,7 +101,7 @@ It changed over time - right now it's less than 10% deleted tweets. It seems hig
 - there are accounts, that have automatic purge script setup, and they delete tweets older than a week or month.
 
 
-This is how output of running 
+This is how output of running looks like
 ```bash
 972 tweets in a batch
 Adding 30 tweets to collection custom-1351555076024893440
@@ -98,9 +109,56 @@ no_errors    29
 not_found     1
 Name: err_reason, dtype: int64
 ```
+### Shortened URLs
+I noticed, that despite being on the list of domains to be filtered out, some websites where still appearing in my custom feed.
+Upon investication I found the culprit: shotrned url. 
+
+Here are examples:
+```py
+[
+'1843m.ag','4NN.cx','53eig.ht','808ne.ws','abc30.tv','abc7.la','abc7ne.ws',
+'apne.ws','b-gat.es','bbc.in','bloom.bg','bos.gl','cbsn.ws','cityjourn.al',
+'cnb.cx','cnet.co','cnn.it','cntrvlr.co','cos.lv','dailym.ai','econ.st',
+'engt.co','hill.cm','ja.ma','jtim.es','mol.im','mtr.cool','natgeo.com',
+'nyti.ms' ,'nzzl.us','on.mktw.net','on.theatln.tc','p4k.in','pewrsr.ch',
+'propub.li','rdcu.be','reut.rs','rol.st','sabahdai.ly','sc.mp','slate.trib.al',
+'str.sg','tcrn.ch','tdrt.io','thr.cm','ti.me','tmz.me','to.pbs.org','trib.al',
+'vult.re','wapo.st','washex.am','wdrb.news','wired.trib.al','yhoo.it','zd.net'
+]
+
+```
+Getting them was quite time consuming. I had to 
+- iterate over all links in my data (15k url), 
+- *expand* URL using `requests_html` and `response = HTMLSession().get(url)` - this can take about 1 second to process
+  - I'm  using `domain = urlparse(url).netloc` when generating custom feed, but it doesn't handles shortened urls. 
+- there were other options for doing that but all were time consuming. I decided on `requests_html`, because it provided easy method of getting the title of webpage. This could be very useful later for building models - I could `concat` tweet text with webpage title to provide more context for model.
+
+As results, I have `.json` file with 15k link and titles. Each item looks like this:
+
+```py
+  {
+      "url": "https://nyti.ms/3c4yrSX",
+      "title": "Could a Small Test Screen People for Covid-19? - The New York Times",
+      "short_url": "nyti.ms",
+      "long_url": "nytimes.com",
+      "is_news": true
+  }
+```
+`short_url` - domain extracted using `urlparse(url).netloc` from shortened url directly
+`long_url` - domain extracted from url expanded by `HTMLSession().get(url)`
+
+This allowed me to quickly idwntify additional urls I should add to my `news_domains.txt` file.
+
+But there were cases, when shortened url *sometimes* led to news site, and sometime not. I decided to have a treshold of 50% - if shortened url led to news site 50% of times, it should be counted as news domain.
+
+Here are url that were *spared*:
+
+![](/img/20210314124305.png)
+
+### Labeling training data
 
 ## NEXT:
-### Labeling training data
+
 
 ![[attn dataset 1]]
 ![[attn feed creation]]

@@ -1,5 +1,5 @@
 ---
-title: "Part 2: Collecting and filtering data"
+title: "Custom twitter feed, Part 2: Collecting and Filtering Data"
 date: 2021-02-18T16:43:08+01:00
 draft: false
 _build:

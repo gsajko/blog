@@ -1,5 +1,5 @@
 ---
-title: "Part 3: Displaying tweets"
+title: "Custom twitter feed, Part 3: Displaying Tweets"
 date: 2021-02-26T18:08:01+01:00
 draft: false
 _build:
@@ -31,10 +31,10 @@ Or how many tweets to display:
 I built a simple prototype early on.
 
 ### Why not streamlit?
-#### fixed hight
+#### Fixed hight
 Your embeded-tweet-element needs to have a fixed height. 
 
-What?
+**What?**
 
 It looks like this:
 ```py
@@ -44,9 +44,13 @@ components.html(et, height=600, scrolling=True)
 So there is an issue with this - tweets vary in content and length. If you have a media (image) or replying to someone, this means you will have a "tall" element.
 And you would have to have additional scrolling.
 
-At the same time, if you post a short, one-sentence tweet, there will be a big gap.
+Screenshot:
+![](/img/20210307145657.png)
+There is cut off at the bottom, and additional scrollbar on the right
 
-#### hard to provide feedback
+At the same time, if you post a short, one-sentence tweet, there will be a big gap.
+![](/img/20210307145639a.png)
+#### Hard to provide feedback
 You can't interact with tweets - if you want to reply or like, you need to open a new window in the browser.
 It's a little annoying, but I can live with it.
 
@@ -59,8 +63,31 @@ I didn't liked using it.
 
 ## Tweetdeck
 
+### What is Tweetdeck?
+https://en.wikipedia.org/wiki/TweetDeck
+>TweetDeck is a social media dashboard application for management of Twitter accounts.
 
-### setting up Tweetdeck
+That's it. It is dashboard, made by Twitter, for power-users. 
+
+### Drawbacks
+
+**Tweetdeck vs Embedded tweet**
+
+Tweetdeck on the **left**, normal embedded tweet on the **right**
+![](/img/20210314140745.png)
+
+As seen above, Tweetdeck doesn't provides full context. You don't see tweet that user is replying to. You need to click on tweet to display it in thread.
+
+**Ugly**
+
+I don't like the look of it. Too narrow columns makes tweets hard to read.
+
+**Doesn't work good on mobile**
+
+But the same is true for streamlit. So I have to live with this one.
+
+
+### Setting up Tweetdeck
 
 Tweetdeck has fixed width for columns, so for better UI I use `stylish` plugin for firefox:
 
@@ -78,7 +105,7 @@ In Tweetdeck I have 2 most important collections:
 ![](/img/20210307151005.png)
 [click for full resolution](/img/20210307151005.png)
 
-### uploading data to collections
+### Uploading data to collections
 I was planning to use `tweepy` for uploading - but it doesn't have this functionality.
 But Twitter API is quite friendly for noobs, and there is no need for using a dedicated library.
 
@@ -110,7 +137,7 @@ It changed over time - right now it's less than 10% deleted tweets. It seems hig
 
 
 This is how the output of running looks like
-```bash
+```
 972 tweets in a batch
 Adding 30 tweets to collection custom-1351555076024893440
 no_errors    29
@@ -190,13 +217,3 @@ Tweets are getting stale - I'm no longer see low-noise tweets, but I don't find 
 So finally comes time for building a model.
 
 I will frame the ranking problem as a binary classification problem, and will just sort tweets by the output of the model.
-
-
-
-![[attn dataset 1]]
-![[attn feed creation]]
-[[blog process]]
-
-### [[dealing with short urls]]
-
-https://github.com/gsajko/tweetfeed/blob/master/notebooks/create_news_domains_list.ipynb

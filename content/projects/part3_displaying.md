@@ -122,7 +122,6 @@ But as my main goal is improving the signal-noise ratio, I'm willing to "loss" t
 
 In [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) terms, I consider this a problem good for the "recall" metric.
 
-Some of the cases:
 ### Deleted tweets
 While writing a function that uploads tweets to a collection I noticed that sometimes upload fails.
 After inspection there were two reasons:

@@ -46,7 +46,7 @@ And you would have to have additional scrolling.
 
 Screenshot:
 ![](/img/20210307145657.png)
-There is cut off at the bottom, and additional scrollbar on the right
+There is cut off at the bottom, and additional scrollbar on the right.
 
 At the same time, if you post a short, one-sentence tweet, there will be a big gap.
 ![](/img/20210307145639a.png)
@@ -73,7 +73,7 @@ That's it. It is dashboard, made by Twitter, for power-users.
 
 **Tweetdeck vs Embedded tweet**
 
-Tweetdeck on the **left**, normal embedded tweet on the **right**
+Tweetdeck on the **left**, normal embedded tweet on the **right**.
 ![](/img/20210314140745.png)
 
 As seen above, Tweetdeck doesn't provides full context. You don't see tweet that user is replying to. You need to click on tweet to display it in thread.
@@ -100,7 +100,7 @@ Changed code to suit me better:
 
 In Tweetdeck I have 2 most important collections:
 - `custom_feed` - where I upload tweets after filtering them
-- `not_relevant` - so I can quickly drag tweets from one column to another, to mark them as not relevant.
+- `not_relevant` - so I can quickly drag tweets from one column to another, to mark them as not relevant
 
 ![](/img/20210307151005.png)
 [click for full resolution](/img/20210307151005.png)
@@ -114,7 +114,7 @@ But Twitter API is quite friendly for noobs, and there is no need for using a de
 ## Reviewing process
 Regardless of the methods of displaying tweets, I think it is crucial to have a way of looking at the results.
 
-It allowed me to think about new features, new ways of filtering out tweets, small fixes, etc. in an iterative matter
+It allowed me to think about new features, new ways of filtering out tweets, small fixes, etc. in an iterative matter.
 
 The downside - this method relies on *eyeballing*. This could lead to silent errors. One of those examples I can think of is removing tweets that could be important for me, without me noticing. 
 
@@ -210,7 +210,7 @@ Such a low `not_relevant` tweets count seen by me is a good sign. This is what I
 On the other hand, if I like a tweet, and would like to see more of that kind of tweet in the future, I just ... "like" ❤️ it.
 
 Right now I have over 1700 liked tweets, so that should be plentiful for what's next.
-## What's next:
+## What's next
 Tweets are getting stale - I'm no longer see low-noise tweets, but I don't find most of them interesting right **NOW**.
 
 So finally comes time for building a model.

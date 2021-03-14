@@ -126,16 +126,16 @@ In [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) te
 While writing a function that uploads tweets to a collection I noticed that sometimes upload fails.
 After inspection there were two reasons:
 - tweet is from a protected account
-- tweet is deleted.
+- tweet is deleted
 
-Almost 20% of tweets were deleted! - I guess December 2020 was a time when people regretted posting things.
-It changed over time - right now it's less than 10% deleted tweets. It seems high, but I don't think it's surprising 
+After collecting some data, almost 20% of tweets were deleted! - I guess December 2020 was a time when people regretted posting things.
+It changed over time - right now it's less than 10% deleted tweets. It seems high, but I don't think it's surprising.
 
 - I often delete tweets, within 10 minutes of posting (noticed spelling error or something like that; retweet something, then cancel retweet and do a quote tweet)
 - there are accounts, that have automatic purge script setup, and they delete tweets older than a week or month.
 
 
-This is how the output of running looks like
+This is how the output of running looks like:
 ```
 972 tweets in a batch
 Adding 30 tweets to collection custom-1351555076024893440

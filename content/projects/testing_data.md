@@ -1,7 +1,7 @@
 ---
-title: "Testing Data with "
+title: "Testing Data with Great Expectations"
 date: 2021-05-15T19:15:23+01:00
-draft: true
+draft: false
 _build:
   list: false
   render: true
@@ -21,7 +21,7 @@ For example missing values could be very problematic for some models, so it's be
 # How
 Enter [Great Expectations](https://greatexpectations.io/).
 
-I really don't know how people managed data validation and testing before - my guess would be 
+I really don't know how people managed data validation and testing before - my guess would be ❗️❗️❗️
 {{< tweet 1369385679080325149 >}}
 
 I heard people many times mention this tool, but was kind of intimidated and expected something complex, but this is far from truth. It's really easy to use.
@@ -225,16 +225,15 @@ Would you like to view your new Expectations in Data Docs? This will open a new 
 
 ![[Pasted image 20210510154547.png]]
 
-this (taken from GE docs) shows the whole process.
-![](file:///home/gsajko/work/tweetfeed/great_expectations/uncommitted/data_docs/local_site/static/images/iterative-dev-loop.png)
+
 
 
 `great_expectations suite edit datasetjson`
 this will launch disposable jupyter notebook, that will help you editing `datasetjson` suite. (oh yes, my great sense for naming things)
 
-
-![[Pasted image 20210510154547.png]]
-![[Pasted image 20210510155423.png]]
+<!-- 
+![](/img/Pasted image 20210510154547.png)
+![](/img/Pasted image 20210510155423.png) -->
 Here is expectation posted above in editable form in notebook and in Data Docs.
 
 change name project:
@@ -244,6 +243,25 @@ changed json file name and in json
 ```
 create checkpoint
 `great_expectations checkpoint new tweets tweet_dataset`
+
+
+
+
+
+this (taken from GE docs) shows the whole process.
+
+
+
+> Welcome! Now that you have initialized your project, the best way to work with Great Expectations is in this iterative dev loop:
+>  1.  Let Great Expectations create a (terrible) first draft suite, by running `great_expectations suite new`.
+>  2.  View the suite here in Data Docs.
+>  3.  Edit the suite in a Jupyter notebook by `running great_expectations suite edit`
+>  4.  Repeat Steps 2-3 until you are happy with your suite.
+>  5.  Commit this suite to your source control repository.
+
+![](/img/iterative-dev-loop.png)
+
+
 then you can run test using:
 `great_expectations checkpoint run tweets`
 you can add this to make file,
@@ -257,6 +275,3 @@ notice that I changed `_` to `-` in alias.
 `check: great-expectations test lint style`
 
 `check: great-expectations test lint style`
-
-
-`Let Great Expectations create a (terrible) first draft suite, by running great_expectations suite new.`

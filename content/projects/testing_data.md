@@ -3,7 +3,7 @@ title: "Testing Data with Great Expectations"
 date: 2021-05-15T19:15:23+01:00
 draft: false
 _build:
-  list: false
+  list: true
   render: true
   publishResources: true
 tags: []
@@ -11,36 +11,42 @@ description: ""
 toc: true
 ---
 
-# Why 
-Data Validation
-I you use python, I hope you use some tool to help you validate and test code you are writing, for example `pytest`, or `pylint`.
+## Why 
+### Data Validation
+If you use python, I hope you use some tool to help you validate and test the code you are writing, for example `pytest`, or `pylint`.
 But we should also test validity of the data.
-For example missing values could be very problematic for some models, so it's better to recognize errors in our dataset before we load them into model (or even before we start pre-processing) 
+
+For example, missing values could be very problematic for some models, so it's better to recognize errors in our dataset before we load them into a model (or even before we start pre-processing) 
 
 
-# How
+## How
 Enter [Great Expectations](https://greatexpectations.io/).
 
-I really don't know how people managed data validation and testing before - my guess would be ❗️❗️❗️
+I don't know how people managed data validation and testing before - my guess would be writing lots of `assert` python code.
 {{< tweet 1369385679080325149 >}}
 
-I heard people many times mention this tool, but was kind of intimidated and expected something complex, but this is far from truth. It's really easy to use.
+Goku, I want to know how did people managed data validation! 
+
+
+I heard people many times mention this tool, but was kind of intimidated and expected something complex, but this is far from the truth. It's really easy to use.
 For my simple project following along [Getting started tutorial](https://docs.greatexpectations.io/en/latest/guides/tutorials/getting_started.html) was enough.
 
 
 To start you need to install it:
 
 For me it was:
+
 `poetry add great_expectations`
 
 Then you can init your project 
+
  `great_expectations init`
 
-If you didn't configured Datasource, don't worry, just run `init` again. But at first passed this step.
+If you didn't configure Datasource at this moment, don't worry, just run `init` again. I at first passed on on this step.
 
 To build intuition about Greater Expectations I followed [Made with ML tutorial](https://madewithml.com/courses/mlops/testing/#data).
 
-Just create an Jupyter Notebook for prototyping.
+Just create a Jupyter Notebook for prototyping.
 I had my dataset loaded in `pandas` DataFrame. 
 You need to wrap it load it into `PandasDataset`. 
 
@@ -50,38 +56,38 @@ Both lines of code below produce the same result.
 ge_df = ge.dataset.PandasDataset(df)
 ge_df = ge.from_pandas(df)
 ```
-Then you are ready to create `excpectations`
+Then you are ready to create `expectations`
 ### Expectations
 
-I quickly create some `expectations` about my dataset, I used pre-bulid ones. 
+To quickly create some `expectations` about my dataset, I used pre-bulid ones. 
 
-Here you can find list of them:
+Here you can find a list of them:
 https://docs.greatexpectations.io/en/latest/reference/glossary_of_expectations.html
 
-Of course you could build custom one if needed.
+Of course, you could build a custom one if needed.
 
-Here what I come up with on the spot. They should be self-explainatory.
+Here what I come up with on the spot. They should be self-explanatory.
 
 ```py
-df.expect_column_to_exist(column="id")
-df.expect_column_to_exist(column="full_text")
-df.expect_column_values_to_be_unique(column="id")
-df.expect_column_values_to_not_be_null(column="full_text")
-df.expect_column_values_to_be_of_type(column="id", type_="int")
-df.expect_column_values_to_be_of_type(column="full_text", type_="str")
+ge_df.expect_column_to_exist(column="id")
+ge_df.expect_column_to_exist(column="full_text")
+ge_df.expect_column_values_to_be_unique(column="id")
+ge_df.expect_column_values_to_not_be_null(column="full_text")
+ge_df.expect_column_values_to_be_of_type(column="id", type_="int")
+ge_df.expect_column_values_to_be_of_type(column="full_text", type_="str")
 ```
 When you have your `expectations`, you need to group them into `expectations suite`.
 
 ### Expectation Suite
 
-This code will take `expectations` attached to `df` and create a suite.
+This code will take `expectations` attached to `ge_df` and create a suite.
 ```py
-expectation_suite = df.get_expectation_suite()
+expectation_suite = ge_df.get_expectation_suite()
 ```
 
 We can use it later to validate dataset.
 ```py
-print(df.validate(expectation_suite=expectation_suite, only_return_failures=True))
+print(ge_df.validate(expectation_suite=expectation_suite, only_return_failures=True))
 ```
 
 ```json
@@ -161,8 +167,9 @@ Would you like to proceed? [Y/n]: y
 My dataset is in `.json` format, but GE will load it into Pandas, without me needing to do anything.
 
 #### Profiling
-Here is where the magic happen:
-While prototyping, I had to come up with my own `expectations`. GE can do this for you.
+Here is where the magic happens:
+
+While prototyping, I had to come up with my own `expectations`. **GE can do this for you**.
 
 ```
 ================================================================================
@@ -197,11 +204,14 @@ Generating example Expectation Suite...
 
 Done generating example Expectation Suite
 ```
-With this, we have generated automaticaly `expectations` for our dataset.
-I come up with 6 of them, GE generated 16.
+With this, we have generated automatically `expectations` for our dataset.
+
+I come up with **6** of them, GE generated **16**.
+
+I think this is the 
 
 #### Documenting Dataset
-On top of profiling, GE also build documentation for us.
+On top of profiling, GE also builds documentation for us.
 
 
 ```
@@ -222,22 +232,39 @@ Done building Data Docs
 Would you like to view your new Expectations in Data Docs? This will open a new browser window. [Y/n]: Y
 ```
 
+This is how it will look like in Data Docs.
 
-![[Pasted image 20210510154547.png]]
+![](/img/20210510154547.png)
 
 
 
 
 `great_expectations suite edit datasetjson`
-this will launch disposable jupyter notebook, that will help you editing `datasetjson` suite. (oh yes, my great sense for naming things)
+this will launch disposable Jupyter Notebook, that will help you editing `datasetjson` suite. (oh yes, my great sense for naming things)
 
-<!-- 
-![](/img/Pasted image 20210510154547.png)
-![](/img/Pasted image 20210510155423.png) -->
-Here is expectation posted above in editable form in notebook and in Data Docs.
+![](/img/20210510155423.png)
 
-change name project:
-changed json file name and in json 
+Above are expectations posted above in editable form in a notebook.
+
+After that, you can view your expectations in `json` format. 
+
+```json
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "full_text"
+      },
+    },
+    {
+      "expectation_type": "expect_column_value_lengths_to_be_between",
+      "kwargs": {
+        "column": "full_text",
+        "min_value": 1
+      }
+```
+Change name of a project is straight forward:
+
+changed json file name and inside json change `expectation_suite_name`
 ```json
 "expectation_suite_name": "tweet_dataset"
 ```
@@ -245,21 +272,17 @@ create checkpoint
 `great_expectations checkpoint new tweets tweet_dataset`
 
 
-
-
-
 this (taken from GE docs) shows the whole process.
 
 
 
+![](/img/iterative-dev-loop.png)
 > Welcome! Now that you have initialized your project, the best way to work with Great Expectations is in this iterative dev loop:
 >  1.  Let Great Expectations create a (terrible) first draft suite, by running `great_expectations suite new`.
 >  2.  View the suite here in Data Docs.
->  3.  Edit the suite in a Jupyter notebook by `running great_expectations suite edit`
+>  3.  Edit the suite in a Jupyter Notebook by `running great_expectations suite edit`
 >  4.  Repeat Steps 2-3 until you are happy with your suite.
 >  5.  Commit this suite to your source control repository.
-
-![](/img/iterative-dev-loop.png)
 
 
 then you can run test using:
@@ -275,3 +298,12 @@ notice that I changed `_` to `-` in alias.
 `check: great-expectations test lint style`
 
 `check: great-expectations test lint style`
+
+## Closing thoughts
+
+Let's go back to first step of process:
+>Let Great Expectations create a (terrible) first draft suite, by running `great_expectations suite new`.
+
+I think this is the best thing IMHO about Great Expectations.
+
+When you start, I'll probably scratch your head, thinking about what exactly should you expect from your data. By creating first (*terrible*) draft GE removes that mental blog, and enables you to iterate to create a better and better suite.

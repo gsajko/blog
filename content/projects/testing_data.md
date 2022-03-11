@@ -269,7 +269,7 @@ this (taken from GE docs) shows the whole process.
 > Welcome! Now that you have initialized your project, the best way to work with Great Expectations is in this iterative dev loop:
 >  1.  Let Great Expectations create a (terrible) first draft suite, by running `great_expectations suite new`.
 >  2.  View the suite here in Data Docs.
->  3.  Edit the suite in a Jupyter Notebook by `running great_expectations suite edit`
+>  3.  Edit the suite in a Jupyter Notebook by running `great_expectations suite edit`
 >  4.  Repeat Steps 2-3 until you are happy with your suite.
 >  5.  Commit this suite to your source control repository.
 
